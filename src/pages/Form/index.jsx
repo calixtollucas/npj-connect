@@ -2,6 +2,21 @@ import { HeaderForm } from '../../components/HeaderForm'
 import { Input } from '../../components/Input'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import fs from 'fs';
+
+//classe cliente
+class Cliente{
+    constructor(nome, telefone, email, dataNascimento, cpf, senha){
+        this.nome = nome,
+        this.telefone = telefone,
+        this.email = email,
+        this.dataNascimento = dataNascimento,
+        this.cpf = cpf,
+        this.senha = senha
+    }
+}
+
+const clientes = [];
 
 import './style.css'
 
@@ -23,9 +38,28 @@ export function Form() {
         }
     };
 
+    function validaInput(){
+        if(! email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
+            alert('erro!');
+            return false;
+        }
+        if(!(senha == confirmarSenha)){
+            alert('erro')
+            return false;
+        }
+        return true;
+    }
+
     function submit(event) {
+        const jsonDb = '../../jsonData/clientes.json'
         event.preventDefault();
-        // Lógica para enviar os dados do formulário
+        // Lógica para enviar os dados do formulário]
+        if (validaInput()) {
+            //CREATE
+            clientes.push(new Cliente(nome, telefone, email, dataNascimento, cpf, senha))
+            console.log(clientes)
+            //fs.writeFile(jsonDb, clientes).catch(alert('erro'));
+        }
     }
 
     return (
