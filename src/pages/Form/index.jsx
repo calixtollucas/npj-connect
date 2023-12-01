@@ -2,7 +2,6 @@ import { HeaderForm } from '../../components/HeaderForm'
 import { Input } from '../../components/Input'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import fs from 'fs';
 
 //classe cliente
 class Cliente{
@@ -16,7 +15,7 @@ class Cliente{
     }
 }
 
-const clientes = [];
+
 
 import './style.css'
 
@@ -51,14 +50,23 @@ export function Form() {
     }
 
     function submit(event) {
-        const jsonDb = '../../jsonData/clientes.json'
+        
+        
         event.preventDefault();
         // Lógica para enviar os dados do formulário]
+        
+        // axios.get('/api/get')
+        //     .then(response =>{
+        //         console.log(response.data)
+        //     })
+
         if (validaInput()) {
+            const users = [];
             //CREATE
-            clientes.push(new Cliente(nome, telefone, email, dataNascimento, cpf, senha))
-            console.log(clientes)
-            //fs.writeFile(jsonDb, clientes).catch(alert('erro'));
+            users.push(new Cliente(nome, telefone, email, dataNascimento, cpf, senha))
+            console.log({users})
+            
+            axios.post('/api/post', users);
         }
     }
 
