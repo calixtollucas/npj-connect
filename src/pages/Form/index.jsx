@@ -37,13 +37,41 @@ export function Form() {
         }
     };
 
+    function validaSenhaForte(senha){
+        let sizeEight = /.[8,32]/
+        let specialChar = /[^A-Za-z0-9]/;
+        let oneLowerCase = /[a-z]/;
+        let oneUpperCase = /[A-Z]/;
+        let oneNumber = /[0-9]/;
+
+        if(!sizeEight.test(senha)){
+            return false;
+        } else if(!oneNumber.test(senha)){
+            return false;
+        } else if(!oneLowerCase.test(senha)){
+            return false;
+        } else if(!oneUpperCase.test(senha)){
+            return false;
+        } else if(!specialChar.test(senha)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     function validaInput(){
         if(! email.match(/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
-            alert('erro!');
+            alert('por favor, digite um email válido');
             return false;
         }
+
+        if(!validaSenhaForte(senha)){
+            alert('digite uma senha mais forte');
+            return false;
+        }
+
         if(!(senha == confirmarSenha)){
-            alert('erro')
+            alert('certifique-se de que os campos SENHA e CONFIRMAR SENHA estão iguais')
             return false;
         }
         return true;
@@ -54,19 +82,10 @@ export function Form() {
         
         event.preventDefault();
         // Lógica para enviar os dados do formulário]
-        
-        // axios.get('/api/get')
-        //     .then(response =>{
-        //         console.log(response.data)
-        //     })
 
         if (validaInput()) {
-            const users = [];
             //CREATE
-            users.push(new Cliente(nome, telefone, email, dataNascimento, cpf, senha))
-            console.log({users})
-            
-            axios.post('/api/post', users);
+            axios.post('/api/post', new Cliente(nome, telefone, email, dataNascimento, cpf, senha));
         }
     }
 
